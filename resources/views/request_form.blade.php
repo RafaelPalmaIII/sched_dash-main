@@ -115,14 +115,55 @@
 
             <!-- Submit Button -->
             <div class="text-right">
-                <button 
-                    type="submit" 
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Schedule Meeting
-                </button>
-                <a href="{{ route('dashboard') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Cancel
-                </a>
+
+        <a href="javascript:void(0);" onclick="validateForm()" class="relative inline-block px-8 py-3 font-bold text-white bg-gradient-to-r from-green-400 to-green-600 rounded-full shadow-lg hover:from-green-500 hover:to-green-700 focus:ring-4 focus:ring-green-300 focus:ring-opacity-50 active:scale-95 transition-all duration-300 ease-in-out">
+        <span class="absolute inset-0 w-full h-full bg-white opacity-0 rounded-full blur-md transform scale-110 transition-opacity duration-300 hover:opacity-10"></span>
+        <span class="relative">Schedule Meeting</span>
+    </a>
+<!-- JavaScript for Validation -->
+<script>
+    function validateForm() {
+        // Get form elements
+        const meetingTitle = document.getElementById('meeting_title');
+        const meetingRoom = document.getElementById('meeting_room');
+        const meetingDate = document.getElementById('meeting_date');
+        const meetingTime = document.getElementById('meeting_time');
+        const participantsEmail = document.querySelectorAll('input[name="participants_email[]"]');
+        
+        // Check if all required fields are filled
+        let isValid = true;
+        const fields = [meetingTitle, meetingRoom, meetingDate, meetingTime];
+        fields.forEach(field => {
+            if (!field.value) {
+                field.classList.add('border-red-500');
+                isValid = false;
+            } else {
+                field.classList.remove('border-red-500');
+            }
+        });
+
+        // Check if at least one participant email is filled
+        if (!Array.from(participantsEmail).some(email => email.value.trim())) {
+            participantsEmail[0].classList.add('border-red-500');
+            isValid = false;
+        } else {
+            participantsEmail[0].classList.remove('border-red-500');
+        }
+
+        // Prevent redirection if not valid
+        if (!isValid) {
+            alert('Please complete all required fields.');
+        } else {
+            // Redirect to the dashboard route if everything is filled
+            window.location.href = "{{ route('dashboard') }}";
+        }
+    }
+</script>
+        <a href="{{ route('dashboard') }}" 
+        class="relative inline-block px-8 py-3 font-bold text-white bg-gradient-to-r from-red-400 to-red-600 rounded-full shadow-lg hover:from-red-500 hover:to-red-700 focus:ring-4 focus:ring-red-300 focus:ring-opacity-50 active:scale-95 transition-all duration-300 ease-in-out">
+        <span class="absolute inset-0 w-full h-full bg-white opacity-0 rounded-full blur-md transform scale-110 transition-opacity duration-300 hover:opacity-10"></span>
+        <span class="relative">Cancel</span>
+             </a>
             </div>
         </form>
     </div>

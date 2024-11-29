@@ -23,6 +23,15 @@
         </div>
     </header>
 
+    <!-- Request Button -->
+    <div class="mt-4 flex justify-end">
+        <a href="{{ route('request_form') }}">
+            <button type="button" class="text-white bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-purple-800 font-medium rounded-lg text-base px-5 py-2.5 text-center mr-2 mb-2">
+                Request a Meeting
+            </button>
+        </a>
+    </div>
+
     <!-- Main Content -->
     <main class="px-4 py-8 mx-auto max-w-7xl">
         <div class="grid gap-6 md:grid-cols-2">
