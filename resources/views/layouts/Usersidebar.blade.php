@@ -7,6 +7,7 @@
         <li><a href="{{ route('dashboard') }}">Dashboard</a></li>  
         <li><a href="department.php">Schedule</a></li>
         <li><a href="course.php">Announcements</a></li>
+        <li><a href="{{ route('request_form') }}">Request Form</a></li>
     </ul>
     
     <form method="POST" action="{{ route('logout') }}" class="logout-form">
