@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminAuthController;
+use App\Http\Controllers\RequestController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -31,9 +32,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::post('/logout', [AdminAuthController::class, 'logout']) ->name('admin.logout');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.AdminDashboard');
-    
     
     // User management routes
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users.index');
@@ -47,6 +47,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 Route::get('/request_form', function () {
     return view('request_form');
 })->name('request_form');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/requests', [RequestController::class, 'store'])->name('requests.store');
+    Route::post('/requests/{request}/approve', [RequestController::class, 'approve'])->name('requests.approve');
+});
 
 require __DIR__.'/auth.php';
 
