@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Request;
+use App\Models\Request as MeetingRequest; // Alias your model
+use Illuminate\Http\Request; // Add Laravel's HTTP Request class
 use Illuminate\Support\Facades\Auth;
 
-class RequestController extends Controller
+class RequestController extends Controller 
 {
     public function store(Request $request)
     {
@@ -30,11 +31,13 @@ class RequestController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function approve(Request $request, Request $approvalRequest)
+    public function approve(Request $request, MeetingRequest $approvalRequest)
     {
-        $approvalRequest->update(['approved' => true, 'approver_id' => Auth::id()]);
+        $approvalRequest->update([
+            'approved' => true, 
+            'approver_id' => Auth::id()
+        ]);
 
         return redirect()->route('dashboard');
     }
 }
-
