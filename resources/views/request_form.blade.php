@@ -11,7 +11,7 @@
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 w-full max-w-3xl">
         <h1 class="text-2xl font-bold mb-6 text-center">Schedule a Meeting</h1>
         
-        <form action="process_meeting.php" method="POST">
+        <form action="process_meeting.php" method="POST" enctype="multipart/form-data">
             <!-- Meeting Title -->
             <div class="mb-4 grid grid-cols-2 gap-4">
                 <div>
@@ -28,15 +28,13 @@
                 <!-- Meeting Room -->
                 <div>
                     <label for="meeting_room" class="block text-gray-700 font-bold mb-2">Meeting Room</label>
-                    <select 
+                    <input 
+                        type="text" 
                         id="meeting_room" 
                         name="meeting_room" 
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                        placeholder="Type meeting room name" 
                         required>
-                        <option value="Meeting Room 1">Meeting Room 1</option>
-                        <option value="Meeting Room 2">Meeting Room 2</option>
-                        <option value="Meeting Room 3">Meeting Room 3</option>
-                    </select>
                 </div>
             </div>
 
@@ -81,25 +79,34 @@
     </div>
 </div>
 
-
-            <!-- Participants -->
+            <!-- Upload Image or Video -->
             <div class="mb-4">
-                <label for="participants_email" class="block text-gray-700 font-bold mb-2">Participants</label>
-                <div class="flex space-x-2">
-                    <input 
-                        type="email" 
-                        id="participants_email" 
-                        name="participants_email[]" 
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                        placeholder="Enter participant email" 
-                        required>
-                    <button 
-                        type="button" 
-                        id="add_email" 
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        +
-                    </button>
-                </div>
+                <label for="files" class="block text-gray-700 font-bold mb-2">Upload Image or Video</label>
+                <input 
+                    type="file" 
+                    id="files" 
+                    name="files[]" 
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                    multiple required>
+            </div>
+
+            <!-- Program -->
+            <div class="mb-4">
+                <label for="program" class="block text-gray-700 font-bold mb-2">Program</label>
+                <select 
+                    id="program" 
+                    name="program" 
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                    required>
+                    <option value="">Select Program</option>
+                    <option value="bpa">Bachelor of Performing Arts</option>
+                    <option value="bpubad">Bachelor of Public Administration</option>
+                    <option value="bsbio">Bachelor of Science in Biology</option>
+                    <option value="bsenv">Bachelor of Science in Environmental Science</option>
+                    <option value="bsess">Bachelor of Science in Exercise Sports and Sciences</option>
+                    <option value="bsmath">Bachelor of Science in Mathematics</option>
+                    <option value="bssw">Bachelor of Science in Social Work</option>
+                </select>
             </div>
 
             <!-- Additional Notes -->
@@ -129,6 +136,7 @@
         const meetingDate = document.getElementById('meeting_date');
         const meetingTime = document.getElementById('meeting_time');
         const participantsEmail = document.querySelectorAll('input[name="participants_email[]"]');
+        const files = document.querySelectorAll('input[name="files[]"]');
         
         // Check if all required fields are filled
         let isValid = true;
@@ -148,6 +156,14 @@
             isValid = false;
         } else {
             participantsEmail[0].classList.remove('border-red-500');
+        }
+
+        // Check if at least one file is uploaded
+        if (files.length === 0 || !Array.from(files).some(file => file.files.length > 0)) {
+            files[0].classList.add('border-red-500');
+            isValid = false;
+        } else {
+            files[0].classList.remove('border-red-500');
         }
 
         // Prevent redirection if not valid
@@ -170,3 +186,4 @@
     </main>
 </body>
 </html>
+
